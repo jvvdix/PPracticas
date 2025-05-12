@@ -1,0 +1,172 @@
+.parent {
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100vh;
+  padding-right: 10%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("/assets/images/biblioteca2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+//estilo del logo !!!!!ARREGLAR!!!!!!!
+.logo {
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  transform: translateY(-50%);
+  width: 180px;
+  height: auto;
+}
+
+//estilo del texto de la izquierda
+.texto {
+  position: absolute;
+  left: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 350px;
+  height: auto;
+  text-align: left;
+}
+
+.texto h1 {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 13px;
+}
+
+.texto p {
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 20px;
+  text-align: left;
+  text-shadow: #f4f4f9;
+  font-weight: semibold;
+}
+
+.signup-container {
+  background-color: white;
+  width: 400px;
+  padding: 20px;
+  border-radius: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 20px;
+  color: #343a40;
+  text-decoration: semibold;
+  font-size: 20px;
+}
+
+p {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+a {
+  color: #666;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  margin-right: 20px;
+  position: relative;
+  padding-top: 13px;
+}
+
+/* este estilo se llama floating labels!! */
+.input-group label {
+  position: absolute;
+  top: 7px;
+  left: 10px;
+  font-size: 12px;
+  color: #999;
+  background-color: white;
+  padding: 0 5px;
+  z-index: 1;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Placeholder style */
+input::placeholder {
+  color: #ccc;
+  font-size: 12px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #212529;
+}
+
+button.submit-btn {
+  padding: 13px;
+  background-color: #212529;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button.submit-btn:hover {
+  background-color: #000814;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+/* Estilos específicos para enlaces en login-link que sobrescriben los estilos generales */
+.login-link a {
+  color: #666;
+  text-decoration: underline;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+  color: #212529;
+}
+
+//estilos para la linea divisora
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+  margin-top: 40px;
+  margin-bottom: 0px;
+}

@@ -1,0 +1,19 @@
+<!-- TOOLBAR -->
+<mat-toolbar class="mat-elevation-z3">
+  <button mat-icon-button (click)="collapsed.set(!collapsed())">
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+
+<!-- SIDENAV -->
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+    <app-custom-sidenav [collapsed]="collapsed()"> </app-custom-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content" [style.marginLeft]="sidenavWidth()">
+    aqui irian las paginas :)
+    <router-outlet></router-outlet>
+    <!-- esto hace que funcionen las rutas-->
+  </mat-sidenav-content>
+</mat-sidenav-container>

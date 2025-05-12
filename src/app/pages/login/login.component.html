@@ -1,0 +1,111 @@
+<div class="parent">
+  <img src="assets/images/logo.png" alt="Logo" class="logo" />
+
+  <div class="texto">
+    <h1>Creando el futuro...</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incidi ut labore et dolore magna aliqua.
+    </p>
+  </div>
+
+  <div class="signup-container">
+    @if(toggleForm){
+    <form id="signup-form" class="signup-form">
+      <h2>Crea una cuenta</h2>
+
+      <div class="input-group">
+        <label for="nombre">Nombre</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          placeholder="Ingresa tu nombre"
+          required
+        />
+        <small id="username-error" class="error-message"></small>
+      </div>
+
+      <div class="input-group">
+        <label for="apellidos">Apellidos</label>
+        <input
+          type="text"
+          id="apellidos"
+          name="apellidos"
+          placeholder="Ingresa tus apellidos"
+          required
+        />
+        <small id="username-error" class="error-message"></small>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Ingresa tu email"
+          required
+        />
+        <small id="email-error" class="error-message"></small>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Ingresa tu contraseña"
+          required
+        />
+        <small id="password-error" class="error-message"></small>
+      </div>
+
+      <button type="submit" class="submit-btn">REGISTRARSE</button>
+      <hr />
+      <div class="login-link">
+        <p (click)="toggleForm = false">
+          ¿Ya tienes una cuenta? <a>Inicia sesión</a>
+        </p>
+      </div>
+    </form>
+    } @else{
+    <form id="signup-form" class="signup-form">
+      <h2>Inicio de sesión</h2>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Ingresa tu email"
+          required
+        />
+        <small id="email-error" class="error-message"></small>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Ingresa tu contraseña"
+          required
+        />
+        <small id="password-error" class="error-message"></small>
+      </div>
+
+      <button type="submit" class="submit-btn">INICIAR SESIÓN</button>
+      <hr />
+      <div class="login-link">
+        <p (click)="toggleForm = true">
+          ¿Aún no tienes una cuenta? <a>Regístrate</a>
+        </p>
+      </div>
+    </form>
+    }
+  </div>
+</div>
