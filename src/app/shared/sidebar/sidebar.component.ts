@@ -5,8 +5,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { RouterOutlet } from '@angular/router';
-import { CustomSidenavComponent } from '../../custom-sidenav/custom-sidenav.component';
+import { CustomSidenavComponent } from '../custom-sidenav/custom-sidenav.component';
 import { CommonModule } from '@angular/common';
+import { TableComponent } from '../table/table.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,7 +19,6 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatListModule,
     RouterOutlet,
-
     CustomSidenavComponent,
   ],
   templateUrl: './sidebar.component.html',

@@ -1,0 +1,32 @@
+h2 {
+  text-align: center;
+  font-weight: semibold;
+}
+
+.user-info {
+  display: flex;
+  align-items: center; /* Centra verticalmente la imagen y los textos */
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column; /* ID y Nombre uno encima del otro */
+}
+
+.user-details p {
+  margin: 2px 0; /* Reduce el espacio entre ID y Nombre */
+}
+
+.center-actions {
+  justify-content: center;
+}
+
+.custom-button {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.custom-button:hover {
+  background-color: #e0e0e0; // gris claro
+}

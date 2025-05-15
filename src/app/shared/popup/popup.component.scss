@@ -1,0 +1,17 @@
+.center-actions {
+  justify-content: center;
+}
+
+.custom-button {
+  color: black;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.custom-button:hover {
+  background-color: #e0e0e0; // gris claro
+}
+
+p,
+i {
+  color: #212529;
+}

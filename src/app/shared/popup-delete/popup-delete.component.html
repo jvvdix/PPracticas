@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Eliminar usuario</h2>
+<mat-dialog-content>
+  <p>¿Seguro que deseas eliminar al usuario?</p>
+
+  <div class="user-info">
+    <img
+      [src]="data.user.photoUrl"
+      alt="User Photo"
+      style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover"
+    />
+    <div class="user-details">
+      <p><strong>ID:</strong> {{ data.user.id }}</p>
+      <p><strong>Nombre:</strong> {{ data.user.fullName }}</p>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="center-actions">
+  <button
+    mat-button
+    mat-dialog-close
+    style="color: black"
+    class="custom-button"
+  >
+    Cancelar
+  </button>
+  <button
+    mat-button
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    style="color: black"
+    class="custom-button"
+  >
+    Eliminar
+  </button>
+</mat-dialog-actions>

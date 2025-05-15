@@ -1,5 +1,3 @@
-// app.routes.ts
-
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { LayoutComponent } from './pages/layout/layout.component';
@@ -21,6 +19,7 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      //como se mostraran dentro del layout, serán hijas de este las rutas dentro del sidenav
       {
         path: 'usuarios',
         component: UsuariosComponent,
@@ -34,14 +33,20 @@ export const routes: Routes = [
         component: PermisosComponent,
       },
       {
-        path: '',
+        path: '', //si solo se pone /layout, se redirige a usuarios directamente (si hubiese un dashboard, se redirigiría al dashboard)
         redirectTo: 'usuarios',
         pathMatch: 'full',
       },
     ],
   },
+
   {
-    path: '**',
+    path: 'layout',
+    redirectTo: 'usuarios',
+    pathMatch: 'full',
+  },
+  {
+    path: '**', //cualquier ruta que no exista, se redirige a login
     redirectTo: 'login',
   },
 ];

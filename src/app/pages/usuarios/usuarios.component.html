@@ -1,1 +1,7 @@
-<h1>USUARIOS</h1>
+<h1>Gestión de usuarios</h1>
+<app-table
+  [userData]="users"
+  (edit)="handleEdit($event)"
+  (delete)="handleDelete($event)"
+>
+</app-table>

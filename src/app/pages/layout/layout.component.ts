@@ -5,7 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
-import { CustomSidenavComponent } from '../../custom-sidenav/custom-sidenav.component';
+import { CustomSidenavComponent } from '../../shared/custom-sidenav/custom-sidenav.component';
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 
