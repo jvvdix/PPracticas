@@ -6,6 +6,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { FormCreateUserComponent } from '../form-create-user/form-create-user.component';
 
 // Componente del diálogo
 @Component({
@@ -14,17 +15,8 @@ import { MatIcon } from '@angular/material/icon';
     <h2 mat-dialog-title class="title">Crear usuario</h2>
 
     <mat-dialog-content>
-      Aquí iría el formulario para crear un nuevo usuario
+      <app-form-create-user></app-form-create-user>
     </mat-dialog-content>
-
-    <mat-dialog-actions class="center-actions">
-      <button mat-button mat-dialog-close class="custom-button">
-        Cancelar
-      </button>
-      <button mat-button mat-dialog-close cdkFocusInitial class="custom-button">
-        Crear
-      </button>
-    </mat-dialog-actions>
   `,
   styles: [
     `
@@ -48,7 +40,7 @@ import { MatIcon } from '@angular/material/icon';
     `,
   ],
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatIcon],
+  imports: [MatDialogModule, MatButtonModule, MatIcon, FormCreateUserComponent],
 })
 export class DialogContentComponent {
   constructor(public dialogRef: MatDialogRef<DialogContentComponent>) {}
@@ -76,7 +68,7 @@ export class PopupComponent {
     exitAnimationDuration: string
   ): void {
     this.dialog.open(DialogContentComponent, {
-      width: '250px',
+      width: '550px',
       enterAnimationDuration,
       exitAnimationDuration,
     });

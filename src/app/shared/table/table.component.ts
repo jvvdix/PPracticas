@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PopupComponent } from '../popup/popup.component';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
+import { PopupEditComponent } from '../popup-edit/popup-edit.component';
 
 export interface UserData {
   id: string;
@@ -44,6 +45,7 @@ export interface UserData {
     MatDialogModule,
     PopupComponent,
     PopupDeleteComponent,
+    PopupEditComponent,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -93,7 +95,16 @@ export class TableComponent implements AfterViewInit, OnChanges {
   }
 
   editUser(id: string) {
-    this.edit.emit(id);
+    const user = this.userData.find((u) => u.id === id);
+    if (!user) return;
+    const dialogRef = this.dialog.open(PopupEditComponent, {
+      data: { user }, // ← Aquí se pasan los datos correctamente
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.edit.emit(id);
+      }
+    });
   }
 
   deleteUser(id: string) {

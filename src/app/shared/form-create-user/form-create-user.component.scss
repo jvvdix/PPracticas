@@ -1,0 +1,36 @@
+.form-container {
+  padding: 8px;
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-actions {
+  margin-top: 20px;
+}
+
+.center-actions {
+  justify-content: center;
+  display: flex;
+}
+
+.custom-button {
+  transition: background-color 0.2s ease-in-out;
+  padding: 15px;
+  margin: 5px;
+}
+
+.custom-button:hover {
+  background-color: #8f979f; /* gris claro */
+}
+
+button.custom-button:disabled {
+  background-color: #eaf4f422; /* color más claro */
+  color: #fffefe; /* texto gris */
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+}

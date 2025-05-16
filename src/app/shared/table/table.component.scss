@@ -130,20 +130,18 @@ mat-paginator {
 }
 
 //EDICION TABLA
-/* Centrar el texto en todas las celdas de la tabla */
+/* centrar el texto en todas las celdas de la tabla */
 ::ng-deep .mat-mdc-table .mat-mdc-cell {
   text-align: center !important;
   justify-content: center !important; /* Para flexbox */
-  // margin-left: 55px !important;
 }
 
 ::ng-deep .mat-mdc-table .mat-mdc-header-cell {
   text-align: center !important;
-  justify-content: center !important; /* Para flexbox */
-  /* Para centrar el texto */
+  justify-content: center !important;
 }
 
-/* Añadir sombreado a toda la tabla */
+/*  sombreado a toda la tabla */
 ::ng-deep .mat-mdc-table {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2) !important; /* Sombra suave */
   border-radius: 8px !important; /* Esquinas redondeadas para el sombreado */
@@ -151,25 +149,25 @@ mat-paginator {
   margin-bottom: 10px !important; /* Espacio inferior para el sombreado */
 }
 
-/* Sombreado adicional para cada fila al pasar el ratón */
+/* hover para cada fila al pasar el ratón */
 ::ng-deep .mat-mdc-row:hover {
   background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
-/* Si quieres mantener el color de fondo azul claro que ya tienes */
+/* fondo gris */
 ::ng-deep .mat-mdc-table tbody tr {
   background-color: #f5f3f4 !important; /* Azul claro similar al de tu captura */
 }
 
-/* Para el encabezado */
+/*  encabezado */
 ::ng-deep .mat-mdc-table thead {
   background-color: #dee2e6 !important; /* Azul un poco más oscuro para el encabezado */
 }
 
-/* Ajustar padding en celdas para mejor apariencia */
+/*  padding en celdas para mejor apariencia */
 ::ng-deep .mat-mdc-cell,
 ::ng-deep .mat-mdc-header-cell {
-  padding: 0 16px !important;
+  padding: 0 0px !important;
 }
 
 ::ng-deep th.mat-header-cell {
