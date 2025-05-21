@@ -4,7 +4,7 @@ import { LayoutComponent } from './pages/layout/layout.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { RolesComponent } from './pages/roles/roles.component';
 import { PermisosComponent } from './pages/permisos/permisos.component';
-
+import { authGuard } from './guards/auth.guard'; // Asegúrate de importar tu guard
 export const routes: Routes = [
   {
     path: '',
@@ -19,34 +19,35 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      //como se mostraran dentro del layout, serán hijas de este las rutas dentro del sidenav
       {
         path: 'usuarios',
         component: UsuariosComponent,
+        canActivate: [authGuard], //el authguard asegura que, si no estás loggeado, no puedes acceder aquí
       },
       {
         path: 'roles',
         component: RolesComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'permisos',
         component: PermisosComponent,
+        canActivate: [authGuard],
       },
       {
-        path: '', //si solo se pone /layout, se redirige a usuarios directamente (si hubiese un dashboard, se redirigiría al dashboard)
+        path: '',
         redirectTo: 'usuarios',
-        pathMatch: 'full',
+        pathMatch: 'full', // ❌ sin canActivate aquí
       },
     ],
   },
-
   {
     path: 'layout',
     redirectTo: 'usuarios',
     pathMatch: 'full',
   },
   {
-    path: '**', //cualquier ruta que no exista, se redirige a login
+    path: '**',
     redirectTo: 'login',
   },
 ];

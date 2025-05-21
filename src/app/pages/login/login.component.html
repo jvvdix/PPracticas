@@ -9,24 +9,26 @@
     </p>
   </div>
 
+  <!-- FORMULARIO DE REGISTRO -->
   <div class="signup-container">
     @if(toggleForm){
     <form id="signup-form" class="signup-form">
       <h2>Crea una cuenta</h2>
 
       <div class="input-group">
-        <label for="nombre">Nombre</label>
+        <label for="nombre">Nombre y apellidos</label>
         <input
           type="text"
-          id="nombre"
-          name="nombre"
-          placeholder="Ingresa tu nombre"
+          [(ngModel)]="registerObj.fullName"
+          id="fullName"
+          name="fullName"
+          placeholder="Ingresa tu nombre y apellidos"
           required
         />
-        <small id="username-error" class="error-message"></small>
+        <small id="username-error" class="error-message"> </small>
       </div>
 
-      <div class="input-group">
+      <!-- <div class="input-group">
         <label for="apellidos">Apellidos</label>
         <input
           type="text"
@@ -36,14 +38,15 @@
           required
         />
         <small id="username-error" class="error-message"></small>
-      </div>
+      </div> -->
 
       <div class="input-group">
         <label for="email">Email</label>
         <input
           type="email"
-          id="email"
-          name="email"
+          [(ngModel)]="registerObj.emailId"
+          id="emailId"
+          name="emailId"
           placeholder="Ingresa tu email"
           required
         />
@@ -54,6 +57,7 @@
         <label for="password">Contraseña</label>
         <input
           type="password"
+          [(ngModel)]="registerObj.password"
           id="password"
           name="password"
           placeholder="Ingresa tu contraseña"
@@ -62,7 +66,9 @@
         <small id="password-error" class="error-message"></small>
       </div>
 
-      <button type="submit" class="submit-btn">REGISTRARSE</button>
+      <button type="submit" (click)="onRegister()" class="submit-btn">
+        REGISTRARSE
+      </button>
       <hr />
       <div class="login-link">
         <p (click)="toggleForm = false">
@@ -71,15 +77,18 @@
       </div>
     </form>
     } @else{
+
+    <!-- FORMULARIO DE INICIO DE SESIÓN -->
     <form id="signup-form" class="signup-form">
       <h2>Inicio de sesión</h2>
 
       <div class="input-group">
         <label for="email">Email</label>
         <input
+          [(ngModel)]="loginObj.emailId"
           type="email"
-          id="email"
-          name="email"
+          id="emailId"
+          name="emailId"
           placeholder="Ingresa tu email"
           required
         />
@@ -90,6 +99,7 @@
         <label for="password">Contraseña</label>
         <input
           type="password"
+          [(ngModel)]="loginObj.password"
           id="password"
           name="password"
           placeholder="Ingresa tu contraseña"
@@ -98,7 +108,9 @@
         <small id="password-error" class="error-message"></small>
       </div>
 
-      <button type="submit" class="submit-btn">INICIAR SESIÓN</button>
+      <button type="submit" (click)="onLogin()" class="submit-btn">
+        INICIAR SESIÓN
+      </button>
       <hr />
       <div class="login-link">
         <p (click)="toggleForm = true">

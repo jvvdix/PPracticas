@@ -30,7 +30,7 @@
 <div class="spacer"></div>
 
 <mat-nav-list class="logout-container">
-  <a mat-list-item routerLink="/login">
+  <a mat-list-item routerLink="/login" (click)="logout()">
     <!-- //(click)="logout()" //ese será el método que usaré para cerrar sesipn -->
     <mat-icon matListItemIcon>logout</mat-icon>
     <span matListItemTitle *ngIf="!sideNavCollapsed()">Cerrar sesión</span>

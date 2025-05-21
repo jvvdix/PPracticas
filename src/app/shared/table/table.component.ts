@@ -44,8 +44,6 @@ export interface UserData {
     MatIconModule,
     MatDialogModule,
     PopupComponent,
-    PopupDeleteComponent,
-    PopupEditComponent,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',

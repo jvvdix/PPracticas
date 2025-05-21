@@ -1,8 +1,8 @@
 import { MatListModule } from '@angular/material/list';
-import { Component, computed, Input, signal } from '@angular/core';
+import { Component, computed, inject, Input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 export type MenuItem = {
   icon: string;
@@ -29,4 +29,11 @@ export class CustomSidenavComponent {
   ]);
 
   profilePicSize = computed(() => (this.sideNavCollapsed() ? '32' : '100'));
+
+  //para el lgout
+  private router = inject(Router); // se inyecta el ruter
+  logout() {
+    localStorage.removeItem('user'); // elimino con esto al usuario (o token) del almacenamiento
+    this.router.navigateByUrl('/login'); // y con esto redirijo al login
+  }
 }
