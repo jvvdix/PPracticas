@@ -22,12 +22,12 @@ import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 import { PopupEditComponent } from '../popup-edit/popup-edit.component';
 
 export interface UserData {
-  id: string;
-  fullName: string;
+  id: number;
+  username: string;
   email: string;
-  role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
-  status: 'Active' | 'Pending';
-  photoUrl: string;
+  name: string;
+  lastName: string;
+  status: boolean;
 }
 
 @Component({
@@ -51,15 +51,14 @@ export interface UserData {
 export class TableComponent implements AfterViewInit, OnChanges {
   @Input() userData: UserData[] = [];
 
-  @Output() edit = new EventEmitter<string>(); //el boton de editar
-  @Output() delete = new EventEmitter<string>(); //el boton de eliminar
+  @Output() edit = new EventEmitter<number>(); // mejor que sea number para id
+  @Output() delete = new EventEmitter<number>();
 
   displayedColumns: string[] = [
-    'photo',
     'id',
+    'username',
     'name',
     'email',
-    'role',
     'status',
     'actions',
   ];
@@ -84,19 +83,29 @@ export class TableComponent implements AfterViewInit, OnChanges {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.dataSource.filterPredicate = (data: UserData, filter: string) => {
+      return (
+        data.id.toString().includes(filter) ||
+        data.username.toLowerCase().includes(filter) ||
+        (data.name + ' ' + data.lastName).toLowerCase().includes(filter) ||
+        data.email.toLowerCase().includes(filter)
+      );
+    };
+    this.dataSource.filter = filterValue;
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
-  editUser(id: string) {
-    const user = this.userData.find((u) => u.id === id);
+  editUser(id: number) {
+    const user = this.userData.find((u) => Number(u.id) === id);
     if (!user) return;
     const dialogRef = this.dialog.open(PopupEditComponent, {
-      data: { user }, // ← Aquí se pasan los datos correctamente
+      data: { user },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
@@ -105,14 +114,12 @@ export class TableComponent implements AfterViewInit, OnChanges {
     });
   }
 
-  deleteUser(id: string) {
+  deleteUser(id: number) {
     const user = this.userData.find((u) => u.id === id);
     if (!user) return;
-
     const dialogRef = this.dialog.open(PopupDeleteComponent, {
-      data: { user }, // ← Aquí se pasan los datos correctamente
+      data: { user },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         this.delete.emit(id);

@@ -1,26 +1,30 @@
 //REGISTRO
 
 export class UserRegister {
-  userId: number;
-  emailId: string;
-  fullName: string;
+  username: string;
   password: string;
+  email: string;
+  name: string;
+  lastName: string;
+  status: boolean;
 
   constructor() {
-    this.userId = 0;
-    this.emailId = '';
-    this.fullName = '';
+    this.username = '';
     this.password = '';
+    this.email = '';
+    this.name = '';
+    this.lastName = '';
+    this.status = true;
   }
 }
 
 //LOGIN
 export class LoginModel {
-  emailId: string;
+  email: string;
   password: string;
 
   constructor() {
-    this.emailId = '';
+    this.email = '';
     this.password = '';
   }
 }

@@ -16,37 +16,51 @@
       <h2>Crea una cuenta</h2>
 
       <div class="input-group">
-        <label for="nombre">Nombre y apellidos</label>
+        <label for="nombre">Nombre</label>
         <input
           type="text"
-          [(ngModel)]="registerObj.fullName"
+          [(ngModel)]="registerObj.name"
           id="fullName"
           name="fullName"
-          placeholder="Ingresa tu nombre y apellidos"
+          placeholder="Ingresa tu nombre"
           required
         />
         <small id="username-error" class="error-message"> </small>
       </div>
 
-      <!-- <div class="input-group">
+      <div class="input-group">
         <label for="apellidos">Apellidos</label>
         <input
           type="text"
+          [(ngModel)]="registerObj.lastName"
           id="apellidos"
           name="apellidos"
           placeholder="Ingresa tus apellidos"
           required
         />
         <small id="username-error" class="error-message"></small>
-      </div> -->
+      </div>
+
+      <div class="input-group">
+        <label for="username">Nombre de usuario</label>
+        <input
+          type="text"
+          [(ngModel)]="registerObj.username"
+          id="username"
+          name="username"
+          placeholder="Ingresa tu nombre de usuario"
+          required
+        />
+        <small id="username-error" class="error-message"></small>
+      </div>
 
       <div class="input-group">
         <label for="email">Email</label>
         <input
           type="email"
-          [(ngModel)]="registerObj.emailId"
-          id="emailId"
-          name="emailId"
+          [(ngModel)]="registerObj.email"
+          id="email"
+          name="email"
           placeholder="Ingresa tu email"
           required
         />
@@ -66,7 +80,7 @@
         <small id="password-error" class="error-message"></small>
       </div>
 
-      <button type="submit" (click)="onRegister()" class="submit-btn">
+      <button type="button" (click)="onRegister($event)" class="submit-btn">
         REGISTRARSE
       </button>
       <hr />
@@ -85,9 +99,9 @@
       <div class="input-group">
         <label for="email">Email</label>
         <input
-          [(ngModel)]="loginObj.emailId"
+          [(ngModel)]="loginObj.email"
           type="email"
-          id="emailId"
+          id="email"
           name="emailId"
           placeholder="Ingresa tu email"
           required
@@ -108,7 +122,7 @@
         <small id="password-error" class="error-message"></small>
       </div>
 
-      <button type="submit" (click)="onLogin()" class="submit-btn">
+      <button type="button" (click)="onLogin($event)" class="submit-btn">
         INICIAR SESIÓN
       </button>
       <hr />

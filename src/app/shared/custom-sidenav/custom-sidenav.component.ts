@@ -2,7 +2,8 @@ import { MatListModule } from '@angular/material/list';
 import { Component, computed, inject, Input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 export type MenuItem = {
   icon: string;
@@ -19,9 +20,11 @@ export type MenuItem = {
 })
 export class CustomSidenavComponent {
   sideNavCollapsed = signal(false);
+
   @Input() set collapsed(val: boolean) {
     this.sideNavCollapsed.set(val);
   }
+
   menuItems = signal<MenuItem[]>([
     { icon: 'account_box', label: 'Usuarios', route: '/usuarios' },
     { icon: 'lock_outline', label: 'Roles', route: '/roles' },
@@ -30,10 +33,10 @@ export class CustomSidenavComponent {
 
   profilePicSize = computed(() => (this.sideNavCollapsed() ? '32' : '100'));
 
-  //para el lgout
-  private router = inject(Router); // se inyecta el ruter
+  private userService = inject(UserService);
+  currentUser = this.userService.getCurrentUser(); // ✅ Cacheamos el usuario
+
   logout() {
-    localStorage.removeItem('user'); // elimino con esto al usuario (o token) del almacenamiento
-    this.router.navigateByUrl('/login'); // y con esto redirijo al login
+    this.userService.logout();
   }
 }

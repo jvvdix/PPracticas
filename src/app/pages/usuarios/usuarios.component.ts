@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TableComponent } from '../../shared/table/table.component';
-import { UsersService } from '../../services/users.service'; // Ruta corregida
 import { UserData } from '../../models/userdata'; // Ruta corregida
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -14,20 +14,20 @@ import { CommonModule } from '@angular/common';
 export class UsuariosComponent implements OnInit {
   users: UserData[] = [];
 
-  constructor(private usersService: UsersService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.usersService.getUsers().subscribe((data) => {
+    this.userService.getAllUsers().subscribe((data) => {
       console.log('USERS:', data);
       this.users = data;
     });
   }
 
-  handleEdit(userId: string) {
-    // Implementa tu lógica de edición
+  handleEdit(userId: number) {
+    // aqui tiene que ir la logica de editar
   }
 
-  handleDelete(userId: string) {
-    // Implementa tu lógica de eliminación
+  handleDelete(userId: number) {
+    // y aqui la de eliminar
   }
 }

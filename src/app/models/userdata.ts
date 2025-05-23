@@ -1,9 +1,9 @@
 import { MatIconModule } from '@angular/material/icon';
 export interface UserData {
-  id: string;
-  fullName: string;
+  id: number;
+  username: string;
   email: string;
-  role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
-  status: 'Active' | 'Pending';
-  photoUrl: string;
+  name: string;
+  lastName: string;
+  status: boolean;
 }

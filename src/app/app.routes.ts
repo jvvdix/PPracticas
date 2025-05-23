@@ -4,7 +4,8 @@ import { LayoutComponent } from './pages/layout/layout.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { RolesComponent } from './pages/roles/roles.component';
 import { PermisosComponent } from './pages/permisos/permisos.component';
-import { authGuard } from './guards/auth.guard'; // Asegúrate de importar tu guard
+import { authGuard } from './guards/auth.guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -18,33 +19,27 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [authGuard], // 🔥 Guard aplicado al padre
     children: [
       {
         path: 'usuarios',
         component: UsuariosComponent,
-        canActivate: [authGuard], //el authguard asegura que, si no estás loggeado, no puedes acceder aquí
+        // Ya no necesita canActivate aquí porque el padre ya lo tiene
       },
       {
         path: 'roles',
         component: RolesComponent,
-        canActivate: [authGuard],
       },
       {
         path: 'permisos',
         component: PermisosComponent,
-        canActivate: [authGuard],
       },
       {
         path: '',
         redirectTo: 'usuarios',
-        pathMatch: 'full', // ❌ sin canActivate aquí
+        pathMatch: 'full',
       },
     ],
-  },
-  {
-    path: 'layout',
-    redirectTo: 'usuarios',
-    pathMatch: 'full',
   },
   {
     path: '**',

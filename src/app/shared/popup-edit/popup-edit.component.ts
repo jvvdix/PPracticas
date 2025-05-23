@@ -25,21 +25,34 @@ export class PopupEditComponent {
   ) {}
 
   handleFormSubmit(formData: UserFormData): void {
-    // Combina los datos del formulario con el ID y la foto
     const updatedUser = {
       ...formData,
       id: this.data.user.id,
-      photoUrl: this.data.user.photoUrl,
     };
 
-    // Aquí normalmente enviarías estos datos a un servicio
     console.log('Usuario actualizado:', updatedUser);
-
-    // Cierra el diálogo con true para indicar edición exitosa
     this.dialogRef.close(true);
   }
 
   onCancel(): void {
     this.dialogRef.close(false);
+  }
+
+  get mappedUserData(): UserFormData {
+    return {
+      fullName: `${this.data.user.name} ${this.data.user.lastName}`,
+      email: this.data.user.email,
+      role: this.getUserRole(), // devuelto como literal
+      status: this.data.user.status ? 'Active' : 'Pending',
+    };
+  }
+
+  private getUserRole():
+    | 'Student'
+    | 'Professor'
+    | 'Admin'
+    | 'Tutor'
+    | 'Delegado' {
+    return 'Student';
   }
 }

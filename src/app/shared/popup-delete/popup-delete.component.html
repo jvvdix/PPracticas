@@ -3,14 +3,12 @@
   <p>¿Seguro que deseas eliminar al usuario?</p>
 
   <div class="user-info">
-    <img
-      [src]="data.user.photoUrl"
-      alt="User Photo"
-      style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover"
-    />
     <div class="user-details">
       <!-- <p><strong>ID:</strong> {{ data.user.id }}</p> -->
-      <p><strong>Nombre:</strong> {{ data.user.fullName }}</p>
+      <p><strong>ID:</strong> {{ data.user.id }}</p>
+      <p><strong>Nombre:</strong> {{ data.user.name }}</p>
+      <p><strong>Apellido:</strong> {{ data.user.lastName }}</p>
+      <p><strong>Email:</strong> {{ data.user.email }}</p>
     </div>
   </div>
 </mat-dialog-content>

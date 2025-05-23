@@ -11,16 +11,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 
+// Tipos para los campos de formulario
+export type UserRole = 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
+export type UserStatus = 'Active' | 'Pending';
+
 // Interfaz para los datos del usuario que se pueden editar
 export interface UserFormData {
   fullName: string;
   email: string;
-  role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
-  status: 'Active' | 'Pending';
+  role: UserRole;
+  status: UserStatus;
 }
 
 @Component({
   selector: 'app-form-edit-user',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -31,27 +36,17 @@ export interface UserFormData {
   ],
   templateUrl: './form-edit-user.component.html',
   styleUrl: './form-edit-user.component.scss',
-  standalone: true,
 })
 export class FormEditUserComponent implements OnInit {
-  // entrada para recibir los datos del usuario a editar
-  @Input() userData!: {
-    fullName: string;
-    email: string;
-    role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
-    status: 'Active' | 'Pending';
-  };
+  @Input() userData!: UserFormData;
 
-  // eventos para comunicarse con el componente padre
   @Output() formSubmit = new EventEmitter<UserFormData>();
   @Output() cancelEdit = new EventEmitter<void>();
 
-  // Formulario reactivo
   editForm!: FormGroup;
 
-  // Opciones para los selectores
-  roles: string[] = ['Student', 'Professor', 'Admin', 'Tutor', 'Delegado'];
-  statuses: string[] = ['Active', 'Pending'];
+  roles: UserRole[] = ['Student', 'Professor', 'Admin', 'Tutor', 'Delegado'];
+  statuses: UserStatus[] = ['Active', 'Pending'];
 
   constructor(private fb: FormBuilder) {}
 
@@ -60,7 +55,6 @@ export class FormEditUserComponent implements OnInit {
   }
 
   private initForm(): void {
-    // Inicializar el formulario con los datos del usuario
     this.editForm = this.fb.group({
       fullName: [this.userData?.fullName || '', [Validators.required]],
       email: [
