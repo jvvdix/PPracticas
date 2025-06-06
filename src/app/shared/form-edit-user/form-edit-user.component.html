@@ -1,16 +1,25 @@
 <div class="form-container">
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Nombre Completo</mat-label>
+      <mat-label>Nombre completo</mat-label>
       <input
         matInput
         formControlName="fullName"
-        placeholder="Nombre Completo"
+        placeholder="Nombre y Apellido"
       />
       <mat-error *ngIf="editForm.get('fullName')?.hasError('required')">
-        El nombre es obligatorio
+        El nombre completo es obligatorio
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" placeholder="Usuario" />
+      <mat-error *ngIf="editForm.get('username')?.hasError('required')">
+        El usuario es obligatorio
+      </mat-error>
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input
@@ -27,28 +36,17 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Rol</mat-label>
-      <mat-select formControlName="role">
-        <mat-option *ngFor="let role of roles" [value]="role">
-          {{ role }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="editForm.get('role')?.hasError('required')">
-        El rol es obligatorio
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Estado</mat-label>
       <mat-select formControlName="status">
-        <mat-option *ngFor="let status of statuses" [value]="status">
-          {{ status === "Active" ? "Activo" : "Pendiente" }}
+        <mat-option *ngFor="let status of statuses" [value]="status.value">
+          {{ status.label }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="editForm.get('status')?.hasError('required')">
         El estado es obligatorio
       </mat-error>
     </mat-form-field>
+
     <div class="form-actions center-actions">
       <button
         mat-button
@@ -60,11 +58,10 @@
         Cancelar
       </button>
       <button
-        mat-button
+        mat-raised-button
         color="primary"
         type="submit"
         [disabled]="editForm.invalid"
-        style="color: black; background-color: #dee2e6"
         class="custom-button"
       >
         Guardar

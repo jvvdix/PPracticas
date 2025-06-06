@@ -1,4 +1,3 @@
-import { MatIconModule } from '@angular/material/icon';
 export interface UserData {
   id: number;
   username: string;
@@ -6,4 +5,5 @@ export interface UserData {
   name: string;
   lastName: string;
   status: boolean;
+  role?: string; // opcional
 }

@@ -13,7 +13,7 @@
   background-position: center;
 }
 
-//estilo del logo !!!!!ARREGLAR!!!!!!!
+//estilo del logo
 .logo {
   position: absolute;
   left: 20%;
@@ -111,7 +111,6 @@ input[type="password"] {
   font-size: 14px;
 }
 
-/* Placeholder style */
 input::placeholder {
   color: #ccc;
   font-size: 12px;
@@ -151,7 +150,6 @@ button.submit-btn:hover {
   cursor: pointer;
 }
 
-/* Estilos específicos para enlaces en login-link que sobrescriben los estilos generales */
 .login-link a {
   color: #666;
   text-decoration: underline;

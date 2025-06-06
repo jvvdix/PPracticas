@@ -13,22 +13,22 @@ import {
 } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import {
-  FormCreateUserComponent,
-  UserFormData,
-} from '../form-create-user/form-create-user.component';
-import { UserService } from '../../services/user.service';
+  FormCreateRoleComponent,
+  RoleFormData,
+} from '../form-create-role/form-create-role.component';
+import { RoleService } from '../../services/role.service';
 
 // Componente del diálogo
 @Component({
-  selector: 'app-dialog-content',
+  selector: 'app-dialog-content-role',
   template: `
-    <h2 mat-dialog-title class="title">Crear usuario</h2>
+    <h2 mat-dialog-title class="title">Crear rol</h2>
 
     <mat-dialog-content>
-      <app-form-create-user
+      <app-form-create-role
         (formSubmit)="onFormSubmit($event)"
         (cancelEdit)="onCancel()"
-      ></app-form-create-user>
+      ></app-form-create-role>
     </mat-dialog-content>
   `,
   styles: [
@@ -50,38 +50,33 @@ import { UserService } from '../../services/user.service';
       .custom-button:hover {
         background-color: #e0e0e0;
       }
+
+      p,
+      i {
+        color: #212529;
+      }
     `,
   ],
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormCreateUserComponent],
+  imports: [MatDialogModule, MatButtonModule, FormCreateRoleComponent],
 })
-export class DialogContentComponent {
-  @Output() userCreated = new EventEmitter<void>();
-  private userService = inject(UserService);
-  constructor(public dialogRef: MatDialogRef<DialogContentComponent>) {}
+export class DialogContentRoleComponent {
+  private roleService = inject(RoleService);
+  constructor(public dialogRef: MatDialogRef<DialogContentRoleComponent>) {}
 
-  onFormSubmit(formData: UserFormData & { password: string }) {
-    const [name, ...lastNameParts] = formData.fullName.split(' ');
-    const lastName = lastNameParts.join(' ') || '';
-
-    const newUser = {
-      username: formData.username,
-      password: formData.password,
-      name,
-      lastName,
-      email: formData.email,
-      role: formData.role,
-      status: formData.status === 'Active',
+  onFormSubmit(formData: RoleFormData) {
+    const newRole = {
+      name: formData.name,
+      description: formData.description,
     };
 
-    this.userService.createUser(newUser).subscribe({
+    this.roleService.createRole(newRole).subscribe({
       next: () => {
         this.dialogRef.close(true);
-        console.log('usuario creado');
-        this.userCreated.emit();
+        console.log('rol creado');
       },
       error: (err) => {
-        console.error('Error creando usuario:', err);
+        console.error('Error creando rol:', err);
       },
     });
   }
@@ -91,30 +86,34 @@ export class DialogContentComponent {
   }
 }
 
-// componenre principal que abre el diálogo
+// componente principal que abre el diálogo
 @Component({
-  selector: 'app-popup',
+  selector: 'app-popup-create-role',
   template: `
-    <button mat-button (click)="openDialog('300ms', '200ms')">
+    <button
+      mat-button
+      class="custom-button"
+      (click)="openDialog('300ms', '200ms')"
+    >
       <i class="material-icons">add</i>
-      <p>Nuevo usuario</p>
+      <p>Nuevo rol</p>
     </button>
   `,
-  styleUrls: ['./popup.component.scss'],
+  styleUrls: ['./popup-create-role.component.scss'],
   standalone: true,
   imports: [MatButtonModule, MatDialogModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopupComponent {
+export class PopupCreateRoleComponent {
   readonly dialog = inject(MatDialog);
 
-  @Output() userCreated = new EventEmitter<void>();
+  @Output() roleCreated = new EventEmitter<void>();
 
   openDialog(
     enterAnimationDuration: string,
     exitAnimationDuration: string
   ): void {
-    const dialogRef = this.dialog.open(DialogContentComponent, {
+    const dialogRef = this.dialog.open(DialogContentRoleComponent, {
       width: '550px',
       enterAnimationDuration,
       exitAnimationDuration,
@@ -122,7 +121,7 @@ export class PopupComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.userCreated.emit();
+        this.roleCreated.emit();
       }
     });
   }

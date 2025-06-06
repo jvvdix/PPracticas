@@ -1,29 +1,27 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { LoginModel, UserRegister } from '../models/user.model';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'https://registerapp.up.railway.app/api'; //la url base
+  private apiUrl = 'https://registerapp.up.railway.app/api';
   private router = inject(Router);
 
   constructor(private http: HttpClient) {}
 
-  //para ver si el user esta loggeado y asegurar la seguridad de otros apartados de la web (se usa en authguard)
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  //registro
   registerUser(obj: UserRegister): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, obj);
   }
 
-  //login con htppparams
   onLogin(obj: LoginModel): Observable<any> {
     const params = new HttpParams()
       .set('email', obj.email)
@@ -35,7 +33,6 @@ export class UserService {
     });
   }
 
-  //cierre de sesion
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -43,29 +40,119 @@ export class UserService {
     console.log('Logout completado');
   }
 
-  //coger todos los users para la tabla
   getAllUsers(): Observable<any[]> {
-    const token = localStorage.getItem('token');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    return this.http.get<any[]>(`${this.apiUrl}/users`, { headers });
+    return this.http.get<any[]>(`${this.apiUrl}/users`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
-  //coger el usuario por id para el editar/eliminar
   getUserById(id: number): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    return this.http.get(`${this.apiUrl}/users/${id}`, { headers });
+    return this.http.get(`${this.apiUrl}/users/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
-  //coger el usuario q esta loggeado para el sidenav
   getCurrentUser() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/users/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  updateUser(id: number, updatedData: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    const userPayload = {
+      username: updatedData.username,
+      password: updatedData.password || '',
+      email: updatedData.email,
+      name: updatedData.name || '',
+      lastName: updatedData.lastName || '',
+      status: Boolean(updatedData.status),
+    };
+
+    const url = `${this.apiUrl}/users/${id}`;
+    console.log('Update user URL:', url);
+    console.log('Payload enviado:', userPayload);
+
+    return this.http.put(url, userPayload, { headers }).pipe(
+      tap((updatedUser) => {
+        console.log('Usuario actualizado exitosamente:', updatedUser);
+      }),
+      catchError((error) => {
+        console.error('Error actualizando usuario:', error);
+        console.error('Error status:', error.status);
+        console.error('Error response:', error.error);
+
+        if (error.status === 400) {
+          console.error(
+            'Bad Request - Verificar que todos los campos requeridos estén presentes'
+          );
+          console.error('Payload enviado:', userPayload);
+        } else if (error.status === 401) {
+          console.error('Unauthorized - Token inválido o expirado');
+          this.router.navigateByUrl('/login');
+        } else if (error.status === 404) {
+          console.error('Usuario no encontrado con ID:', id);
+        }
+
+        return throwError(() => error);
+      })
+    );
+  }
+
+  createUser(user: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    console.log('Creating user with payload:', user);
+
+    return this.http
+      .post(`${this.apiUrl}/users`, user, {
+        headers,
+        observe: 'response',
+      })
+      .pipe(
+        tap((response) => console.log('Usuario creado:', response.body)),
+
+        catchError((error) => {
+          console.error('Error creando usuario:', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  getRoles(): Observable<{ id: number; name: string; description: string }[]> {
+    return this.http.get<{ id: number; name: string; description: string }[]>(
+      `${this.apiUrl}/roles`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.warn('No token found in localStorage');
+      //si no hay token te redirige al login
+      this.router.navigateByUrl('/login');
+      throw new Error('No authentication token available');
+    }
+
+    console.log('Token usado en petición:', token); //no olvidar borrar!!!!!
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
   }
 }

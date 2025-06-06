@@ -1,26 +1,31 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
-// Tipos para los campos de formulario
-export type UserRole = 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
-export type UserStatus = 'Active' | 'Pending';
-
-// Interfaz para los datos del usuario que se pueden editar
 export interface UserFormData {
+  id?: number;
   fullName: string;
   email: string;
-  role: UserRole;
-  status: UserStatus;
+  status: boolean;
+  username: string;
+  name?: string;
+  lastName?: string;
 }
 
 @Component({
@@ -31,24 +36,25 @@ export interface UserFormData {
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     MatButtonModule,
+    MatSelectModule,
   ],
   templateUrl: './form-edit-user.component.html',
   styleUrl: './form-edit-user.component.scss',
 })
 export class FormEditUserComponent implements OnInit {
   @Input() userData!: UserFormData;
-
-  @Output() formSubmit = new EventEmitter<UserFormData>();
+  @Output() formSubmit = new EventEmitter<any>();
   @Output() cancelEdit = new EventEmitter<void>();
 
   editForm!: FormGroup;
 
-  roles: UserRole[] = ['Student', 'Professor', 'Admin', 'Tutor', 'Delegado'];
-  statuses: UserStatus[] = ['Active', 'Pending'];
+  statuses = [
+    { label: 'Activo', value: true },
+    { label: 'Pendiente', value: false },
+  ];
 
-  constructor(private fb: FormBuilder) {}
+  private fb = inject(FormBuilder);
 
   ngOnInit(): void {
     this.initForm();
@@ -57,18 +63,39 @@ export class FormEditUserComponent implements OnInit {
   private initForm(): void {
     this.editForm = this.fb.group({
       fullName: [this.userData?.fullName || '', [Validators.required]],
+      username: [this.userData?.username || '', [Validators.required]],
       email: [
         this.userData?.email || '',
         [Validators.required, Validators.email],
       ],
-      role: [this.userData?.role || 'Student', [Validators.required]],
-      status: [this.userData?.status || 'Active', [Validators.required]],
+
+      status: [
+        this.userData?.status !== undefined ? this.userData.status : false,
+        [Validators.required],
+      ],
     });
   }
 
   onSubmit(): void {
     if (this.editForm.valid) {
-      this.formSubmit.emit(this.editForm.value);
+      const formValue = this.editForm.value;
+
+      // Dividir fullName en name y lastName si es necesario
+      const nameParts = formValue.fullName.trim().split(' ');
+      const name = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+
+      const userUpdatePayload = {
+        username: formValue.username,
+        password: '',
+        email: formValue.email,
+        name: name,
+        lastName: lastName,
+        status: formValue.status,
+      };
+
+      console.log('Payload a enviar:', userUpdatePayload);
+      this.formSubmit.emit(userUpdatePayload);
     } else {
       this.editForm.markAllAsTouched();
     }

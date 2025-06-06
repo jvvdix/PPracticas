@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -10,17 +17,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { UserService } from '../../services/user.service';
 
-// Interfaz para los datos del usuario que se pueden editar
+export interface Role {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export interface UserFormData {
+  username: string;
   fullName: string;
   email: string;
-  role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
+  role: string;
   status: 'Active' | 'Pending';
 }
 
 @Component({
   selector: 'app-form-create-user',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -30,44 +45,53 @@ export interface UserFormData {
     MatButtonModule,
   ],
   templateUrl: './form-create-user.component.html',
-  styleUrl: './form-create-user.component.scss',
-  standalone: true,
+  styleUrls: ['./form-create-user.component.scss'],
 })
 export class FormCreateUserComponent implements OnInit {
-  // entrada para recibir los datos del usuario a editar
-  @Input() userData!: {
-    fullName: string;
-    email: string;
-    role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
-    status: 'Active' | 'Pending';
-  };
-  // eventos para comunicarse con el componente padre
-  @Output() formSubmit = new EventEmitter<UserFormData>();
+  @Input() userData?: Partial<UserFormData>;
+  @Output() formSubmit = new EventEmitter<any>();
   @Output() cancelEdit = new EventEmitter<void>();
 
-  // Formulario reactivo
   editForm!: FormGroup;
 
-  // Opciones para los selectores
-  roles: string[] = ['Student', 'Professor', 'Admin', 'Tutor', 'Delegado'];
-  statuses: string[] = ['Active', 'Pending'];
+  roles: Role[] = [];
+  statuses: UserFormData['status'][] = ['Active', 'Pending'];
 
-  constructor(private fb: FormBuilder) {}
+  private userService = inject(UserService);
+  private fb = inject(FormBuilder);
 
   ngOnInit(): void {
     this.initForm();
+    this.loadRoles();
   }
 
   private initForm(): void {
-    // Inicializar el formulario con los datos del usuario
     this.editForm = this.fb.group({
+      username: [this.userData?.username || '', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       fullName: [this.userData?.fullName || '', [Validators.required]],
       email: [
         this.userData?.email || '',
         [Validators.required, Validators.email],
       ],
-      role: [this.userData?.role || 'Student', [Validators.required]],
+      role: [this.userData?.role || '', [Validators.required]],
       status: [this.userData?.status || 'Active', [Validators.required]],
+    });
+  }
+
+  loadRoles(): void {
+    this.userService.getRoles().subscribe({
+      next: (roles) => {
+        this.roles = roles;
+
+        if (!this.editForm.get('role')?.value && roles.length > 0) {
+          this.editForm.get('role')?.setValue(roles[0].name);
+        }
+      },
+      error: (err) => {
+        console.error('Error cargando roles:', err);
+        this.roles = [];
+      },
     });
   }
 

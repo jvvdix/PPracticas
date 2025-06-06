@@ -25,13 +25,12 @@ export class PopupEditComponent {
   ) {}
 
   handleFormSubmit(formData: UserFormData): void {
-    const updatedUser = {
-      ...formData,
-      id: this.data.user.id,
-    };
+    console.log('Form data recibida en popup:', formData);
 
-    console.log('Usuario actualizado:', updatedUser);
-    this.dialogRef.close(true);
+    this.dialogRef.close({
+      userId: this.data.user.id,
+      formData,
+    });
   }
 
   onCancel(): void {
@@ -39,20 +38,35 @@ export class PopupEditComponent {
   }
 
   get mappedUserData(): UserFormData {
-    return {
-      fullName: `${this.data.user.name} ${this.data.user.lastName}`,
+    const userData: UserFormData = {
+      id: this.data.user.id,
+      fullName: `${this.data.user.name || ''} ${
+        this.data.user.lastName || ''
+      }`.trim(),
       email: this.data.user.email,
-      role: this.getUserRole(), // devuelto como literal
-      status: this.data.user.status ? 'Active' : 'Pending',
+
+      status: this.convertToBoolean(this.data.user.status),
+      username: this.data.user.username,
+      name: this.data.user.name,
+      lastName: this.data.user.lastName,
     };
+
+    console.log('Mapped user data:', userData);
+    return userData;
   }
 
-  private getUserRole():
-    | 'Student'
-    | 'Professor'
-    | 'Admin'
-    | 'Tutor'
-    | 'Delegado' {
-    return 'Student';
+  private convertToBoolean(status: any): boolean {
+    if (typeof status === 'boolean') {
+      return status;
+    }
+    if (typeof status === 'string') {
+      return (
+        status.toLowerCase() === 'active' || status.toLowerCase() === 'true'
+      );
+    }
+    if (typeof status === 'number') {
+      return status === 1;
+    }
+    return false;
   }
 }

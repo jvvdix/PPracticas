@@ -1,6 +1,34 @@
 <div class="form-container">
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre de Usuario</mat-label>
+      <input
+        matInput
+        formControlName="username"
+        placeholder="Nombre de usuario"
+      />
+      <mat-error *ngIf="editForm.get('username')?.hasError('required')">
+        El nombre de usuario es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Contraseña"
+      />
+      <mat-error *ngIf="editForm.get('password')?.hasError('required')">
+        La contraseña es obligatoria
+      </mat-error>
+      <mat-error *ngIf="editForm.get('password')?.hasError('minlength')">
+        La contraseña debe tener al menos 6 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nombre Completo</mat-label>
       <input
         matInput
@@ -11,6 +39,7 @@
         El nombre es obligatorio
       </mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input
@@ -29,8 +58,8 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Rol</mat-label>
       <mat-select formControlName="role">
-        <mat-option *ngFor="let role of roles" [value]="role">
-          {{ role }}
+        <mat-option *ngFor="let role of roles" [value]="role.name">
+          {{ role.description }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="editForm.get('role')?.hasError('required')">
@@ -49,6 +78,7 @@
         El estado es obligatorio
       </mat-error>
     </mat-form-field>
+
     <div class="form-actions center-actions">
       <button
         mat-button

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardComponent } from './dashboard.component';
+import { FormCreateRoleComponent } from './form-create-role.component';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('FormCreateRoleComponent', () => {
+  let component: FormCreateRoleComponent;
+  let fixture: ComponentFixture<FormCreateRoleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardComponent]
+      imports: [FormCreateRoleComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(FormCreateRoleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

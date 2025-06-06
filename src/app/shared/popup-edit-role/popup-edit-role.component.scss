@@ -1,15 +1,29 @@
+h2 {
+  text-align: center;
+  font-weight: 600;
+  margin: 20px auto;
+  width: 100%;
+  display: block;
+}
+
 .form-container {
   padding: 15px;
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
   box-sizing: border-box;
-  height: 70vh;
+  height: 50vh;
 }
 
 .full-width {
   width: 100%;
   margin-bottom: 8px;
+}
+
+mat-form-field {
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-actions {
@@ -35,8 +49,18 @@
   background-color: #adb5bd;
 }
 
-mat-form-field {
-  margin: 0;
-  width: 100%;
-  box-sizing: border-box;
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-details p {
+  margin: 2px 0;
 }

@@ -16,23 +16,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { PopupComponent } from '../popup/popup.component';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
-import { PopupEditComponent } from '../popup-edit/popup-edit.component';
-import { UserFormData } from '../form-edit-user/form-edit-user.component';
+import { RoleData } from '../../models/role.model';
+import { PopupDeleteRoleComponent } from '../popup-delete-role/popup-delete-role.component';
+import { PopupCreateRoleComponent } from '../popup-create-role/popup-create-role.component';
+import { PopupEditRoleComponent } from '../popup-edit-role/popup-edit-role.component';
 
-export interface UserData {
-  id: number;
-  username: string;
-  email: string;
+export interface RoleFormData {
   name: string;
-  lastName: string;
-  status: boolean;
+  description: string;
 }
 
 @Component({
-  selector: 'app-table',
+  selector: 'app-roles-table',
   standalone: true,
   imports: [
     CommonModule,
@@ -44,40 +40,34 @@ export interface UserData {
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    PopupComponent,
+    PopupCreateRoleComponent,
   ],
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
+  templateUrl: './roles-table.component.html',
+  styleUrls: ['./roles-table.component.scss'],
 })
-export class TableComponent implements AfterViewInit, OnChanges {
-  @Input() userData: UserData[] = [];
+export class RolesTableComponent implements AfterViewInit, OnChanges {
+  @Input() roleData: RoleData[] = [];
 
   @Output() edit = new EventEmitter<{
-    userId: number;
-    formData: UserFormData;
+    roleId: number;
+    formData: RoleData;
   }>();
   @Output() delete = new EventEmitter<number>();
+  @Output() roleCreated = new EventEmitter<void>();
 
-  displayedColumns: string[] = [
-    'id',
-    'username',
-    'name',
-    'email',
-    'status',
-    'actions',
-  ];
-  dataSource: MatTableDataSource<UserData>;
+  displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
+  dataSource: MatTableDataSource<RoleData>;
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
   constructor(private dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource<UserData>([]);
+    this.dataSource = new MatTableDataSource<RoleData>([]);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userData'] && changes['userData'].currentValue) {
-      this.dataSource.data = this.userData;
+    if (changes['roleData'] && changes['roleData'].currentValue) {
+      this.dataSource.data = this.roleData;
     }
   }
 
@@ -90,14 +80,10 @@ export class TableComponent implements AfterViewInit, OnChanges {
     const filterValue = (event.target as HTMLInputElement).value
       .trim()
       .toLowerCase();
-    this.dataSource.filterPredicate = (data: UserData, filter: string) => {
-      return (
-        data.id.toString().includes(filter) ||
-        data.username.toLowerCase().includes(filter) ||
-        (data.name + ' ' + data.lastName).toLowerCase().includes(filter) ||
-        data.email.toLowerCase().includes(filter)
-      );
-    };
+    this.dataSource.filterPredicate = (data: RoleData, filter: string) =>
+      data.id.toString().includes(filter) ||
+      data.name.toLowerCase().includes(filter) ||
+      data.description.toLowerCase().includes(filter);
     this.dataSource.filter = filterValue;
 
     if (this.dataSource.paginator) {
@@ -105,29 +91,38 @@ export class TableComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  editUser(id: number) {
-    const user = this.userData.find((u) => Number(u.id) === id);
-    if (!user) return;
-    const dialogRef = this.dialog.open(PopupEditComponent, {
-      data: { user },
+  editRole(id: number) {
+    const role = this.roleData.find((r) => Number(r.id) === id);
+    if (!role) return;
+
+    const dialogRef = this.dialog.open(PopupEditRoleComponent, {
+      data: { role },
+      width: '500px',
     });
+
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+      if (result && result.roleId && result.formData) {
         this.edit.emit(result);
       }
     });
   }
 
-  deleteUser(id: number) {
-    const user = this.userData.find((u) => u.id === id);
-    if (!user) return;
-    const dialogRef = this.dialog.open(PopupDeleteComponent, {
-      data: { user },
+  deleteRole(id: number) {
+    const role = this.roleData.find((r) => r.id === id);
+    if (!role) return;
+
+    const dialogRef = this.dialog.open(PopupDeleteRoleComponent, {
+      data: { role },
     });
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         this.delete.emit(id);
       }
     });
+  }
+
+  onRoleCreated() {
+    this.roleCreated.emit();
   }
 }

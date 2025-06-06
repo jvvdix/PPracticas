@@ -19,12 +19,11 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [authGuard], // 🔥 Guard aplicado al padre
+    canActivate: [authGuard], //
     children: [
       {
         path: 'usuarios',
         component: UsuariosComponent,
-        // Ya no necesita canActivate aquí porque el padre ya lo tiene
       },
       {
         path: 'roles',

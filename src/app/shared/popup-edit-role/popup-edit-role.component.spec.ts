@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableRolesComponent } from './table-roles.component';
+import { PopupEditRoleComponent } from './popup-edit-role.component';
 
-describe('TableRolesComponent', () => {
-  let component: TableRolesComponent;
-  let fixture: ComponentFixture<TableRolesComponent>;
+describe('PopupEditRoleComponent', () => {
+  let component: PopupEditRoleComponent;
+  let fixture: ComponentFixture<PopupEditRoleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TableRolesComponent]
+      imports: [PopupEditRoleComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TableRolesComponent);
+    fixture = TestBed.createComponent(PopupEditRoleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

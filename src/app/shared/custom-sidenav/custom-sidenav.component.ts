@@ -34,7 +34,7 @@ export class CustomSidenavComponent {
   profilePicSize = computed(() => (this.sideNavCollapsed() ? '32' : '100'));
 
   private userService = inject(UserService);
-  currentUser = this.userService.getCurrentUser(); // ✅ Cacheamos el usuario
+  currentUser = this.userService.getCurrentUser();
 
   logout() {
     this.userService.logout();
